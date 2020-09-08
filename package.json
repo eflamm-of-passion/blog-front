@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "version": "0.1.0",
+  "description": "Eflamm's website.",
+  "scripts": {
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leternoz/blog.git"
+  },
+  "author": "Eflamm Ollivier",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/leternoz/blog/issues"
+  },
+  "homepage": "https://github.com/leternoz/blog#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.4.1",
+    "remove-files-webpack-plugin": "^1.4.4",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
