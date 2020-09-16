@@ -1,17 +1,18 @@
-class MainTitle extends HTMLElement {
-    constructor() {
-        super();
+import { CustomElement } from "./custom-element.js";
 
-        const template =`
-            <h1>Eflamm</h1>
-        `;
+class MainTitle extends CustomElement {
+  constructor() {
+    const template = `
+      <h1 data-bind="name"></h1>
+      <input type="text" data-model="name" />
+    `;
 
-        const shadowRoot = this.attachShadow({mode : "open"});
-        shadowRoot.innerHTML = template;
-    }
+    const state = { name: "Eflamm" };
+
+    super(template, state);
+  }
 }
 
-window.customElements.define('blog-title', MainTitle);
-
+window.customElements.define("blog-title", MainTitle);
 
 export { MainTitle };
