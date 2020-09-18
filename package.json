@@ -25,7 +25,9 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
+    "eslint": "^7.9.0",
     "html-webpack-plugin": "^4.4.1",
     "jest": "^26.4.2",
     "remove-files-webpack-plugin": "^1.4.4",
