@@ -1,6 +1,6 @@
-import { CustomElement } from "./custom-element.js";
+import CustomElement from "./custom-element.js";
 
-class MainTitle extends CustomElement {
+export default class MainTitle extends CustomElement {
   constructor() {
     const template = `
       <h1 data-bind="name"></h1>
@@ -12,7 +12,3 @@ class MainTitle extends CustomElement {
     super(template, state);
   }
 }
-
-window.customElements.define("blog-title", MainTitle);
-
-export { MainTitle };

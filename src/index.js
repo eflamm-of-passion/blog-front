@@ -1,7 +1,7 @@
-import { MainTitle } from "./main-title";
-import { Menu } from "./menu";
+import MainTitle from "./main-title";
+import Menu from "./menu";
 
-class BlogApp extends HTMLElement {
+export default class BlogApp extends HTMLElement {
   constructor() {
     super();
 
@@ -20,7 +20,8 @@ class BlogApp extends HTMLElement {
 }
 
 window.customElements.define("blog-app", BlogApp);
+window.customElements.define('blog-menu', Menu);
+window.customElements.define("blog-title", MainTitle);
+
 const appElement = document.createElement("blog-app");
 document.body.appendChild(appElement);
-
-export default BlogApp;

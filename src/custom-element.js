@@ -2,7 +2,7 @@
  * Provides data binding to the component. You have to use the 'data-bind' attribute on the elements displaying the data,
  * and 'data-model' attribute on the tags modifying the data. The value in the element attributes must match the state attributes.
  */
-class CustomElement extends HTMLElement {
+export default class CustomElement extends HTMLElement {
   /**
    * Injects the template and the data in the component, updates the values when changes happen
    * @param {multine string} template - The HTML tags injected in the component
@@ -64,5 +64,3 @@ class CustomElement extends HTMLElement {
     render(state);
   }
 }
-
-export { CustomElement };

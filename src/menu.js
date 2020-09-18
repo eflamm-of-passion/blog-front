@@ -1,4 +1,4 @@
-class Menu extends HTMLElement {
+export default class Menu extends HTMLElement {
     constructor() {
         super();
 
@@ -10,7 +10,3 @@ class Menu extends HTMLElement {
         shadowRoot.innerHTML = template;
     }
 }
-
-window.customElements.define('blog-menu', Menu);
-
-export default Menu;
