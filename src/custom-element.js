@@ -1,5 +1,5 @@
 /**
- * Provides  data binding to the component. You have to use the 'data-bind' attribute on the elements displaying the data,
+ * Provides data binding to the component. You have to use the 'data-bind' attribute on the elements displaying the data,
  * and 'data-model' attribute on the tags modifying the data. The value in the element attributes must match the state attributes.
  */
 class CustomElement extends HTMLElement {
