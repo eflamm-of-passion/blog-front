@@ -1,45 +1,35 @@
-class Router {
-    routes = [];
-    mode = null;
-	root = '/';
+export default class Router {
 	
-	constructor(options) {
-		this.mode = window.history.pushState ? 'history' : 'hash';
-		if (options.mode) {
-			this.mode = options.mode;
-		}
-		if (options.root) {
-			this.root = options.root;
-		}
-	}
+	constructor(routes, links, fallBack) {
 
-	/**
-	 * Add a route to the router
-	 * @param {*} path 
-	 * @param {*} cb 
-	 */
-	add = (path, cb) => {
-		this.routes.push({path, cb});
-		return this;
-	}
+		const handleLoad = () => {
+			resolveRoute(window.location.pathname);
+		};
 
-	/**
-	 * Remove a route from the router
-	 * @param {string} path - the path to remove
-	 */
-	remove = path => {
-		return this.routes.filter((currentPath) => {
-			return path !== currentPath;
-		});
-	}
+		const handleLinkClicked = (e) => {
+			e.preventDefault();
+			if (e.target.tagName === 'A') {
+				window.history.pushState({}, null, e.target.href);
+				// TODO find the corresponding route
+				resolveRoute(e.target.pathname);
+			}
+		};
+		
+		const resolveRoute = (path) => {
+			const route = routes.find(r => r.path === path);
+			if (route) {
+				route.callback(route.container, route.component, route.state);
+			} else {
+				if(fallBack) {
+					// TODO redirect to the fallback component
+					fallBack.callback(fallBack.container, fallBack.component, fallBack.state);
+				} else {
+					console.error('No fallback link provided');
+				}
+			}
+		};
 
-	/**
-	 * Flush all the router routes
-	 */
-	flush = () => {
-		this.routes = [];
-		return this;
+		window.addEventListener('load', handleLoad);
+		links.forEach(link => link.addEventListener('click', handleLinkClicked) );
 	}
 }
-
-export default Router;

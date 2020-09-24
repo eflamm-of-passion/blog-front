@@ -3,9 +3,14 @@ export default class Menu extends HTMLElement {
 		super();
 
 		const template = `
-            <h2>Menu</h2>
-        `;
-
+			<nav>
+				<a href="/cv">CV</a>
+				<a href="/portfolio">PORTFOLIO</a>
+				<a href="/web">WEB</a>
+				<a href="/misc">MISC</a>
+			</nav>
+		`;
+		
 		const shadowRoot = this.attachShadow({mode: 'open'});
 		shadowRoot.innerHTML = template;
 	}

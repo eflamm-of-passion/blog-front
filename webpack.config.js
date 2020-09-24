@@ -9,6 +9,9 @@ module.exports = {
 		main: './src/index.js',
 	},
 	devtool: 'inline-source-map',
+	devServer: {
+		historyApiFallback: true
+	},
 	plugins: [
 		new RemovePlugin({
 			before: {

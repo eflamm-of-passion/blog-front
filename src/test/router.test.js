@@ -1,5 +1,11 @@
-const Router = require('../router.js');
+import Router from ('../router.js');
 
-test('create a simple router', () => {
-	expect(true).toBe(true);
+test('remove a route from the router', () => {
+	const options = {
+		mode: 'history',
+		root: '/'
+	};
+	const router = new Router(options);
+	router.add('hello');
+	expect(router.routes[0]).toBe('hello');
 });

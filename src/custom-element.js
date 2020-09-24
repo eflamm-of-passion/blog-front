@@ -5,15 +5,18 @@
 export default class CustomElement extends HTMLElement {
 	/**
    * Injects the template and the data in the component, updates the values when changes happen
-   * @param {multine string} template - The HTML tags injected in the component
+   * @param {multiline string} template - The HTML tags injected in the component
    * @param {json object} state - the data injected in the component
    */
-	constructor(template, state) {
+	constructor(template, state, style) {
 		super();
 
-		// Render the template inside the component
+		// Render the template inside the component, and apply the style
 		const shadowRoot = this.attachShadow({ mode: 'open' });
 		shadowRoot.innerHTML = template;
+		const styleElement = document.createElement('style');
+		styleElement.textContent = style;
+		shadowRoot.append(styleElement);
 
 		/**
      * Creates a Proxy with the initial values of the state, and updates the view everytime the values changes
@@ -51,14 +54,14 @@ export default class CustomElement extends HTMLElement {
 		const listeners = shadowRoot.querySelectorAll('[data-model]');
 		listeners.forEach((listener) => {
 			const name = listener.dataset.model;
-			listener.addEventListener('keyup', (event) => {
+			listener.addEventListener('keyup', () => {
 				state[name] = listener.value;
-				console.log(state);
+				console.debug('The state has changed : ' + JSON.stringify(state));
 			});
 		});
 
 		// Instanciates the state
-		state = createState(state);
+		this.state = createState(state);
 
 		// Render the state values in the view
 		render(state);
