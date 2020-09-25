@@ -1,4 +1,4 @@
-import Router from ('../router.js');
+import Router from '../router.js';
 
 test('remove a route from the router', () => {
 	const options = {

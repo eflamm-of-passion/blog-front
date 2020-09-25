@@ -1,14 +1,16 @@
+import './main-title.scss';
+
 import CustomElement from './custom-element.js';
 
 export default class MainTitle extends CustomElement {
-	constructor() {
+	constructor(state) {
 		const template = `
 			<h1 data-bind="name"></h1>
 			<input type="text" data-model="name" />
 		`;
 
-		const state = { name: 'Eflamm' };
+		state = state || { name: 'Eflamm' };
 
-		super(template, state);
+		super(template, state, null);
 	}
 }

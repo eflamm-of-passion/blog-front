@@ -16,10 +16,10 @@ export default class BlogApp extends HTMLElement {
 			<div id="switch"></div>
 		`;
 		
-		const shadowRoot = this.attachShadow({ mode: 'open' });
-		shadowRoot.innerHTML = template;
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.innerHTML = template;
 
-		const switchDiv = shadowRoot.querySelector('#switch');
+		const switchDiv = this.shadowRoot.querySelector('#switch');
 
 		const routes = [
 			{container: switchDiv, path: '/', component: new Curriculum(), callback: switchComponent },
@@ -29,7 +29,8 @@ export default class BlogApp extends HTMLElement {
 		const fallBackState = { title: 'Page not found', message: 'The URL you asked does not exist.'};
 		const fallBackRoute = {container: switchDiv, component: new Error(fallBackState), callback: switchComponent};
 
-		new Router(routes, shadowRoot.querySelectorAll('a'), fallBackRoute);
+		const links = this.shadowRoot.querySelector('blog-menu').shadowRoot.querySelectorAll('.route');
+		new Router(routes, links, fallBackRoute);
 	}
 
 	connectedCallback() {

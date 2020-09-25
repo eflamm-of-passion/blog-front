@@ -8,14 +8,15 @@ export default class CustomElement extends HTMLElement {
    * @param {multiline string} template - The HTML tags injected in the component
    * @param {json object} state - the data injected in the component
    */
-	constructor(template, state, style) {
+	constructor(template, state, styles) {
 		super();
 
 		// Render the template inside the component, and apply the style
 		const shadowRoot = this.attachShadow({ mode: 'open' });
 		shadowRoot.innerHTML = template;
+		// TODO iterate to add each stylesheet
 		const styleElement = document.createElement('style');
-		styleElement.textContent = style;
+		styleElement.textContent = styles;
 		shadowRoot.append(styleElement);
 
 		/**
@@ -41,10 +42,8 @@ export default class CustomElement extends HTMLElement {
 				shadowRoot.querySelectorAll('[data-bind]')
 			).map((e) => e.dataset.bind);
 			bindings.forEach((binding) => {
-				shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML =
-          state[binding];
-				shadowRoot.querySelector(`[data-model=${binding}]`).value =
-          state[binding];
+				shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
+				shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
 			});
 		};
 
@@ -55,8 +54,8 @@ export default class CustomElement extends HTMLElement {
 		listeners.forEach((listener) => {
 			const name = listener.dataset.model;
 			listener.addEventListener('keyup', () => {
-				state[name] = listener.value;
-				console.debug('The state has changed : ' + JSON.stringify(state));
+				this.state[name] = listener.value;
+				// console.debug('The state has changed : ' + JSON.stringify(state));
 			});
 		});
 
@@ -64,6 +63,6 @@ export default class CustomElement extends HTMLElement {
 		this.state = createState(state);
 
 		// Render the state values in the view
-		render(state);
+		render(this.state);
 	}
 }
