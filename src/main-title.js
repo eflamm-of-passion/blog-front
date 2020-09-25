@@ -1,4 +1,4 @@
-import './main-title.scss';
+import style from './styles/main-title.scss';
 
 import CustomElement from './custom-element.js';
 
@@ -11,6 +11,6 @@ export default class MainTitle extends CustomElement {
 
 		state = state || { name: 'Eflamm' };
 
-		super(template, state, null);
+		super(template, state, [style]);
 	}
 }

@@ -12,12 +12,18 @@ export default class CustomElement extends HTMLElement {
 		super();
 
 		// Render the template inside the component, and apply the style
-		const shadowRoot = this.attachShadow({ mode: 'open' });
-		shadowRoot.innerHTML = template;
-		// TODO iterate to add each stylesheet
-		const styleElement = document.createElement('style');
-		styleElement.textContent = styles;
-		shadowRoot.append(styleElement);
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.innerHTML = template;
+		
+		if(styles) {
+			const sheets = [];
+			styles.forEach(style => {
+				const sheet = new CSSStyleSheet();
+				sheet.replaceSync(style);
+				sheets.push(sheet);
+			});
+			this.shadowRoot.adoptedStyleSheets = sheets;
+		}
 
 		/**
      * Creates a Proxy with the initial values of the state, and updates the view everytime the values changes
@@ -39,18 +45,18 @@ export default class CustomElement extends HTMLElement {
      */
 		const render = (state) => {
 			const bindings = Array.from(
-				shadowRoot.querySelectorAll('[data-bind]')
+				this.shadowRoot.querySelectorAll('[data-bind]')
 			).map((e) => e.dataset.bind);
 			bindings.forEach((binding) => {
-				shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
-				shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
+				this.shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
+				this.shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
 			});
 		};
 
 		/**
      * Register all the data-model elements to event listeners.
      */
-		const listeners = shadowRoot.querySelectorAll('[data-model]');
+		const listeners = this.shadowRoot.querySelectorAll('[data-model]');
 		listeners.forEach((listener) => {
 			const name = listener.dataset.model;
 			listener.addEventListener('keyup', () => {

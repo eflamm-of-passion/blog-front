@@ -26,16 +26,21 @@ module.exports = {
 	],
 	module: {
 		rules: [
+			// Regular css files
 			{
-				test: /\.s[ac]ss$/i,
+				test: /\.css$/,
+				loader: ['style-loader', 'css-loader']
+			},
+		
+			// Transforming SCSS file into CSS string
+			{
+				test: /\.s[ca]ss$/,
 				use: [
-					// Creates `style` nodes from JS strings
-					'style-loader',
-					// Translates CSS into CommonJS
-					'css-loader',
-					// Compiles Sass to CSS
-					'sass-loader',
-				],
+					'raw-loader',
+					{
+						loader: 'sass-loader'
+					}
+				]
 			},
 		],
 	},

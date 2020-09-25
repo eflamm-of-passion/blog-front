@@ -6,11 +6,14 @@ import Error from './error';
 import Router from './router';
 import {switchComponent} from './route';
 
+import style from './styles/index.scss';
+
 export default class BlogApp extends HTMLElement {
 	constructor() {
 		super();
 
 		const template = `
+		<h1>herzs</h1>
             <blog-title></blog-title>
 			<blog-menu></blog-menu>
 			<div id="switch"></div>
@@ -18,9 +21,11 @@ export default class BlogApp extends HTMLElement {
 		
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.innerHTML = template;
+		const sheet = new CSSStyleSheet();
+		sheet.replaceSync(style);
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 
 		const switchDiv = this.shadowRoot.querySelector('#switch');
-
 		const routes = [
 			{container: switchDiv, path: '/', component: new Curriculum(), callback: switchComponent },
 			{container: switchDiv, path: '/cv', component: new Curriculum(), callback: switchComponent },
