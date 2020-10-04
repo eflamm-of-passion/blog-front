@@ -1,3 +1,4 @@
+import CustomElement from './custom-element';
 import MainTitle from './main-title';
 import Menu from './menu';
 import Curriculum from './cv';
@@ -6,25 +7,29 @@ import Error from './error';
 import Router from './router';
 import {switchComponent} from './route';
 
-import style from './styles/index.scss';
+import indexStyle from './styles/index.scss';
+import mainThemeStyle from './styles/main-theme.scss';
 
-export default class BlogApp extends HTMLElement {
+const template = document.createElement('template');
+template.innerHTML = `
+	<blog-title></blog-title>
+	<blog-menu></blog-menu>
+	<div id="switch"></div>
+`;
+const styles = [mainThemeStyle];
+const styleElements = styles.map(style => {
+	const styleElement = document.createElement('style');
+	styleElement.appendChild(document.createTextNode(style));
+	return styleElement;
+});
+
+export default class BlogApp extends CustomElement {
 	constructor() {
-		super();
-
-		const template = `
-		<h1>herzs</h1>
-            <blog-title></blog-title>
-			<blog-menu></blog-menu>
-			<div id="switch"></div>
-		`;
-		
-		this.attachShadow({ mode: 'open' });
-		this.shadowRoot.innerHTML = template;
-		const sheet = new CSSStyleSheet();
-		sheet.replaceSync(style);
-		this.shadowRoot.adoptedStyleSheets = [sheet];
-
+		super(template, styleElements);		
+	}
+	
+	connectedCallback() {
+		super.connectedCallback();
 		const switchDiv = this.shadowRoot.querySelector('#switch');
 		const routes = [
 			{container: switchDiv, path: '/', component: new Curriculum(), callback: switchComponent },
@@ -33,13 +38,9 @@ export default class BlogApp extends HTMLElement {
 		];
 		const fallBackState = { title: 'Page not found', message: 'The URL you asked does not exist.'};
 		const fallBackRoute = {container: switchDiv, component: new Error(fallBackState), callback: switchComponent};
-
+	
 		const links = this.shadowRoot.querySelector('blog-menu').shadowRoot.querySelectorAll('.route');
 		new Router(routes, links, fallBackRoute);
-	}
-
-	connectedCallback() {
-		console.log('The blog is connected');
 	}
 }
 
@@ -52,3 +53,6 @@ window.customElements.define('blog-error', Error);
 
 const appElement = document.createElement('blog-app');
 document.body.appendChild(appElement);
+const indexStyleElement = document.createElement('style');
+indexStyleElement.appendChild(document.createTextNode(indexStyle));
+document.body.appendChild(indexStyleElement);

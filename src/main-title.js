@@ -2,15 +2,18 @@ import style from './styles/main-title.scss';
 
 import CustomElement from './custom-element.js';
 
+const template = document.createElement('template');
+template.innerHTML = `
+	<h1 data-bind="name"></h1>
+`;
+const styleElement = document.createElement('style');
+styleElement.appendChild(document.createTextNode(style));
+
 export default class MainTitle extends CustomElement {
 	constructor(state) {
-		const template = `
-			<h1 data-bind="name"></h1>
-			<input type="text" data-model="name" />
-		`;
 
 		state = state || { name: 'Eflamm' };
 
-		super(template, state, [style]);
+		super(template, [styleElement], state);
 	}
 }

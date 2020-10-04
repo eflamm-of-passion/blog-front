@@ -1,5 +1,11 @@
 import CustomElement from './custom-element';
 
+const template = document.createElement('template');
+template.innerHTML = `
+	<h3 data-bind="title"></h3>
+	<p data-bind="message"></p>
+`;
+
 export default class Error extends CustomElement {
 	constructor(state) {
 
@@ -8,11 +14,6 @@ export default class Error extends CustomElement {
 			message: 'This is an unexpected behavior.'
 		};
         
-		const template = `
-			<h3>${state.title}</h3>
-			<p>${state.message}</p>
-		`;
-		
-		super(template, state);
+		super(template, [], state);
 	}
 }

@@ -1,4 +1,28 @@
-h1 {
+:host {
+    display: flex;
+    height: 40vh;
+    color: white; 
+    justify-content: center;
+    align-items: center;
 
-    background-color: red;
-}
+    h1 {
+        margin: 0;
+        font-size: 6em;
+        font-weight: 800;
+        text-shadow: 0px 0px 50px #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 2vw;
+        animation: test;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes test {
+        0%   {color: #ecfd00;}
+        20%  {color: #1efd00;}
+        50%  {color: #00fd7e;}
+        70%  {color: #00f5fd;}
+        90%  {color: #ffbcff;}
+        100% {color: #ecfd00;}
+    }
+} 
