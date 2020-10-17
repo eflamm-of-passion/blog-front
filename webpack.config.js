@@ -26,22 +26,25 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			// Regular css files
 			{
 				test: /\.css$/,
 				loader: ['style-loader', 'css-loader']
 			},
-		
-			// Transforming SCSS file into CSS string
 			{
 				test: /\.s[ca]ss$/,
 				use: [
 					'raw-loader',
 					{
-						loader: 'sass-loader'
+						loader: 'sass-loader',
+						options: {
+							additionalData: `
+							@import "./src/styles/_variables.scss";
+							@import "./src/styles/_mixins.scss";
+						  `
+						}
 					}
 				]
-			},
+			}
 		],
 	},
 	optimization: {
