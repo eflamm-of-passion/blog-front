@@ -6,9 +6,7 @@ import Portfolio from './portfolio';
 import Error from './error';
 import Router from './router';
 import {switchComponent} from './route';
-
-import indexStyle from './styles/index.scss';
-import mainThemeStyle from './styles/main-theme.scss';
+import {indexStyle, blogStyle} from './style';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -16,16 +14,10 @@ template.innerHTML = `
 	<blog-menu></blog-menu>
 	<div id="switch"></div>
 `;
-const styles = [mainThemeStyle];
-const styleElements = styles.map(style => {
-	const styleElement = document.createElement('style');
-	styleElement.appendChild(document.createTextNode(style));
-	return styleElement;
-});
 
 export default class BlogApp extends CustomElement {
 	constructor() {
-		super(template, styleElements);		
+		super(template, [blogStyle]);		
 	}
 	
 	connectedCallback() {
@@ -53,6 +45,4 @@ window.customElements.define('blog-error', Error);
 
 const appElement = document.createElement('blog-app');
 document.body.appendChild(appElement);
-const indexStyleElement = document.createElement('style');
-indexStyleElement.appendChild(document.createTextNode(indexStyle));
-document.body.appendChild(indexStyleElement);
+document.body.appendChild(indexStyle);

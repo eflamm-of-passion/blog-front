@@ -39,7 +39,6 @@ module.exports = {
 						options: {
 							additionalData: `
 							@import "./src/styles/_variables.scss";
-							@import "./src/styles/_mixins.scss";
 						  `
 						}
 					}
@@ -48,6 +47,7 @@ module.exports = {
 		],
 	},
 	optimization: {
+		minimize: true,
 		minimizer: [new TerserPlugin({sourceMap: false})]
 	},
 	output: {

@@ -8,21 +8,47 @@
         0 0 0.1vw $first-color,
         0 0 0.4vw $first-color,
         0 0 0.8vw $first-color,
-        0.5vw 0.5vw 0.1vw rgba($second-color, 0.5), 
-        1vw 1vw 0.2vw rgba($third-color, 0.45), 
-        2vw 3vw 0.3vw rgba($fourth-color, 0.40),
-        3vw 2vw 0.4vw rgba($fifth-color, 0.35),
-        4vw 5vw 0.6vw rgba($sixth-color, 0.30), 
-        5vw 4vw 0.8vw rgba($seventh-color, 0.25),
-        6vw 7vw 1vw rgba($eighth-color, 0.20),
-        7vw 6vw 1.2vw rgba($ninth-color, 0.15),
-        8vw 8vw 1.4vw rgba($tenth-color, 0.1);
+        0.5vw 0.5vw 0.1vw rgba($second-color, 0.45), 
+        1vw 1vw 0.2vw rgba($third-color, 0.4), 
+        2vw 3vw 0.3vw rgba($fourth-color, 0.35),
+        3vw 2vw 0.4vw rgba($fifth-color, 0.3),
+        4vw 5vw 0.6vw rgba($sixth-color, 0.25), 
+        5vw 4vw 0.8vw rgba($seventh-color, 0.2),
+        6vw 7vw 1vw rgba($eighth-color, 0.15),
+        7vw 6vw 1.2vw rgba($ninth-color, 0.1),
+        8vw 8vw 1.4vw rgba($tenth-color, 0.05),
+        -0.5vw -0.5vw 0.1vw rgba($second-color, 0.45), 
+        -1vw -1vw 0.2vw rgba($third-color, 0.4), 
+        -2vw -3vw 0.3vw rgba($fourth-color, 0.35),
+        -3vw -2vw 0.4vw rgba($fifth-color, 0.3),
+        -4vw -5vw 0.6vw rgba($sixth-color, 0.25), 
+        -5vw -4vw 0.8vw rgba($seventh-color, 0.2),
+        -6vw -7vw 1vw rgba($eighth-color, 0.15),
+        -7vw -6vw 1.2vw rgba($ninth-color, 0.1),
+        -8vw -8vw 1.4vw rgba($tenth-color, 0.05),
+        -0.5vw 0.5vw 0.1vw rgba($second-color, 0.45), 
+        -1vw 1vw 0.2vw rgba($third-color, 0.4), 
+        -2vw 3vw 0.3vw rgba($fourth-color, 0.35),
+        -3vw 2vw 0.4vw rgba($fifth-color, 0.3),
+        -4vw 5vw 0.6vw rgba($sixth-color, 0.25), 
+        -5vw 4vw 0.8vw rgba($seventh-color, 0.2),
+        -6vw 7vw 1vw rgba($eighth-color, 0.15),
+        -7vw 6vw 1.2vw rgba($ninth-color, 0.1),
+        -8vw 8vw 1.4vw rgba($tenth-color, 0.05),
+        1vw -1vw 0.2vw rgba($third-color, 0.4), 
+        2vw -3vw 0.3vw rgba($fourth-color, 0.35),
+        3vw -2vw 0.4vw rgba($fifth-color, 0.3),
+        4vw -5vw 0.6vw rgba($sixth-color, 0.25), 
+        5vw -4vw 0.8vw rgba($seventh-color, 0.2),
+        6vw -7vw 1vw rgba($eighth-color, 0.15),
+        7vw -6vw 1.2vw rgba($ninth-color, 0.1),
+        8vw -8vw 1.4vw rgba($tenth-color, 0.05);
 }
 
 @mixin pop-text {
     @include pop-text-mixin($first, $second, $third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth); 
     animation: pop-text-kf;
-    animation-duration: 10s;
+    animation-duration: 8s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 
@@ -61,5 +87,8 @@
     }       
 }
 
-
-
+:host {
+    h1 {
+        @include pop-text;
+    }
+} 

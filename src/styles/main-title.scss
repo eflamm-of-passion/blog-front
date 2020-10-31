@@ -11,7 +11,13 @@
         font-size: 16vw;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 2vw;
-        @include pop-text;
+        letter-spacing: 4vw;
+        margin-right: -4vw;
     }
-} 
+}
+
+@media screen and (max-width: $breakpoint-tablet) {
+    :host {
+        height: 30vh;
+    }
+}

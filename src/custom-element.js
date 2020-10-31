@@ -25,9 +25,11 @@ export default class CustomElement extends HTMLElement {
 		this.attachShadow({ mode: 'open' });
 		if(this.template instanceof HTMLTemplateElement) {
 			this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+		} else {
+			console.error('The style must be an HTMLTemplateElement.');
 		}
 		if(this.styles.every(style => style instanceof HTMLStyleElement)) {
-			this.styles.forEach(style => this.shadowRoot.appendChild(style) );
+			this.styles.forEach(style => this.shadowRoot.appendChild(style.cloneNode(true)) );
 		} else {
 			console.error('The style must be an HTMLStyleElement.');
 		}
