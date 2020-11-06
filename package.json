@@ -4,9 +4,9 @@
   "description": "Eflamm's website.",
   "scripts": {
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --host 0.0.0.0",
+    "start": "webpack-dev-server --host 0.0.0.0 --config webpack.dev.js",
     "test": "jest",
-    "build": "webpack"
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "terser-webpack-plugin": "^4.2.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.3.0"
   }
 }

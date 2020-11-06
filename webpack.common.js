@@ -4,13 +4,8 @@ const RemovePlugin = require('remove-files-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-	mode: 'development',
 	entry: {
 		main: './src/index.js',
-	},
-	devtool: 'inline-source-map',
-	devServer: {
-		historyApiFallback: true
 	},
 	plugins: [
 		new RemovePlugin({

@@ -1,6 +1,5 @@
 
-@mixin pop-text-mixin(  $first-color, $second-color, $third-color, $fourth-color, $fifth-color, 
-                        $sixth-color, $seventh-color, $eighth-color, $ninth-color, $tenth-color) {
+@mixin pop-text-mixin($first-color, $second-color, $third-color, $fourth-color, $fifth-color, $sixth-color) {
     color: black; 
     text-shadow:
         0 0 0.1vw $first-color,
@@ -13,40 +12,16 @@
         2vw 3vw 0.3vw rgba($fourth-color, 0.35),
         3vw 2vw 0.4vw rgba($fifth-color, 0.3),
         4vw 5vw 0.6vw rgba($sixth-color, 0.25), 
-        5vw 4vw 0.8vw rgba($seventh-color, 0.2),
-        6vw 7vw 1vw rgba($eighth-color, 0.15),
-        7vw 6vw 1.2vw rgba($ninth-color, 0.1),
-        8vw 8vw 1.4vw rgba($tenth-color, 0.05),
         -0.5vw -0.5vw 0.1vw rgba($second-color, 0.45), 
         -1vw -1vw 0.2vw rgba($third-color, 0.4), 
         -2vw -3vw 0.3vw rgba($fourth-color, 0.35),
         -3vw -2vw 0.4vw rgba($fifth-color, 0.3),
         -4vw -5vw 0.6vw rgba($sixth-color, 0.25), 
-        -5vw -4vw 0.8vw rgba($seventh-color, 0.2),
-        -6vw -7vw 1vw rgba($eighth-color, 0.15),
-        -7vw -6vw 1.2vw rgba($ninth-color, 0.1),
-        -8vw -8vw 1.4vw rgba($tenth-color, 0.05),
-        -0.5vw 0.5vw 0.1vw rgba($second-color, 0.45), 
-        -1vw 1vw 0.2vw rgba($third-color, 0.4), 
-        -2vw 3vw 0.3vw rgba($fourth-color, 0.35),
-        -3vw 2vw 0.4vw rgba($fifth-color, 0.3),
-        -4vw 5vw 0.6vw rgba($sixth-color, 0.25), 
-        -5vw 4vw 0.8vw rgba($seventh-color, 0.2),
-        -6vw 7vw 1vw rgba($eighth-color, 0.15),
-        -7vw 6vw 1.2vw rgba($ninth-color, 0.1),
-        -8vw 8vw 1.4vw rgba($tenth-color, 0.05),
-        1vw -1vw 0.2vw rgba($third-color, 0.4), 
-        2vw -3vw 0.3vw rgba($fourth-color, 0.35),
-        3vw -2vw 0.4vw rgba($fifth-color, 0.3),
-        4vw -5vw 0.6vw rgba($sixth-color, 0.25), 
-        5vw -4vw 0.8vw rgba($seventh-color, 0.2),
-        6vw -7vw 1vw rgba($eighth-color, 0.15),
-        7vw -6vw 1.2vw rgba($ninth-color, 0.1),
-        8vw -8vw 1.4vw rgba($tenth-color, 0.05);
+        -0.5vw 0.5vw 0.1vw rgba($second-color, 0.45)
 }
 
 @mixin pop-text {
-    @include pop-text-mixin($first, $second, $third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth); 
+    @include pop-text-mixin($first, $second, $third, $fourth, $fifth, $sixth); 
     animation: pop-text-kf;
     animation-duration: 8s;
     animation-iteration-count: infinite;
@@ -56,35 +31,23 @@
 
 @keyframes pop-text-kf {
     0%  {
-        @include pop-text-mixin($first, $second, $third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth); 
+        @include pop-text-mixin($first, $second, $third, $fourth, $fifth, $sixth); 
     }
-    10%   {
-        @include pop-text-mixin($tenth, $first, $second, $third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth); 
-    }
-    20%  {
-        @include pop-text-mixin($ninth, $tenth, $first, $second, $third, $fourth, $fifth, $sixth, $seventh, $eighth);
+    15%   {
+        @include pop-text-mixin($sixth, $first, $second, $third, $fourth, $fifth); 
     }
     30%  {
-        @include pop-text-mixin($eighth, $ninth, $tenth, $first, $second, $third, $fourth, $fifth, $sixth, $seventh);
+        @include pop-text-mixin($fifth, $sixth, $first, $second, $third, $fourth);
     }
-    40%  {
-        @include pop-text-mixin($seventh, $eighth, $ninth, $tenth, $first, $second, $third, $fourth, $fifth, $sixth);
-    }
-    50%  {
-        @include pop-text-mixin($sixth, $seventh, $eighth, $ninth, $tenth, $first, $second, $third, $fourth, $fifth);
+    45%  {
+        @include pop-text-mixin($fourth, $fifth, $sixth, $first, $second, $third);
     }
     60%  {
-        @include pop-text-mixin($fifth, $sixth, $seventh, $eighth, $ninth, $tenth, $first, $second, $third, $fourth);
-    } 
-    70%  {
-        @include pop-text-mixin($fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth, $first, $second, $third);
+        @include pop-text-mixin($third, $fourth, $fifth, $sixth, $first, $second);
     }
-    80%  {
-        @include pop-text-mixin($third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth, $first, $second);
-    }
-    90%  {
-        @include pop-text-mixin($second, $third, $fourth, $fifth, $sixth, $seventh, $eighth, $ninth, $tenth, $first);
-    }       
+    85%  {
+        @include pop-text-mixin($second, $third, $fourth, $fifth, $sixth, $first);
+    }      
 }
 
 :host {
