@@ -2,7 +2,7 @@
  * Provides data binding to the component. You have to use the 'data-bind' attribute on the elements displaying the data,
  * and 'data-model' attribute on the tags modifying the data. The value in the element attributes must match the state attributes.
  */
-export default class CustomElement extends HTMLElement {
+export default class WebComponent extends HTMLElement {
 	
 	/**
    	* @param {HTMLTemplateElement} template - The HTML tags injected in the component

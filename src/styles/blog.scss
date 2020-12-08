@@ -4,4 +4,12 @@
     width: 100%;
     overflow: auto;
     background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgb(0, 3, 22) 200%); 
+
+
+    #editor-mode-button {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }

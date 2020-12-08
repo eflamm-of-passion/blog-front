@@ -1,6 +1,6 @@
 import style from './styles/menu.scss';
 
-import CustomElement from './custom-element';
+import WebComponent from './web-component';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -14,7 +14,7 @@ template.innerHTML = `
 const styleElement = document.createElement('style');
 styleElement.appendChild(document.createTextNode(style));
 
-export default class Menu extends CustomElement {
+export default class Menu extends WebComponent {
 	constructor() {
 		super(template, [styleElement]);
 	}

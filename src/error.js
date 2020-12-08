@@ -1,4 +1,4 @@
-import CustomElement from './custom-element';
+import WebComponent from './web-component';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -6,7 +6,7 @@ template.innerHTML = `
 	<p data-bind="message"></p>
 `;
 
-export default class Error extends CustomElement {
+export default class Error extends WebComponent {
 	constructor(state) {
 
 		state = state || {

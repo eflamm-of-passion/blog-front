@@ -1,17 +1,17 @@
-import {mainTitleStyle, popTextStyle} from './style';
+import {mainTitleStyle} from './style';
 
-import CustomElement from './custom-element.js';
+import WebComponent from './web-component.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
 	<h1 data-bind="name"></h1>
 `;
 
-export default class MainTitle extends CustomElement {
+export default class MainTitle extends WebComponent {
 	constructor(state) {
 
 		state = state || { name: 'Eflamm' };
 
-		super(template, [mainTitleStyle, popTextStyle], state);
+		super(template, [mainTitleStyle], state);
 	}
 }

@@ -1,10 +1,13 @@
-import CustomElement from './custom-element';
+import WebComponent from './web-component';
 import MainTitle from './main-title';
 import Menu from './menu';
-import Curriculum from './cv';
+import Curriculum from './cv/cv';
+import CurriculumSection from './cv/cv-section';
+import CurriculumEntry from './cv/cv-entry';
 import Portfolio from './portfolio';
 import Error from './error';
 import Router from './router';
+import context from './context';
 import {switchComponent} from './route';
 import {indexStyle, blogStyle} from './style';
 
@@ -12,12 +15,13 @@ const template = document.createElement('template');
 template.innerHTML = `
 	<blog-title></blog-title>
 	<blog-menu></blog-menu>
-	<div id="switch"></div>
+	<main id="switch"></main>
+	<button id="editor-mode-button">Editor Mode</button>
 `;
 
-export default class BlogApp extends CustomElement {
+export default class BlogApp extends WebComponent {
 	constructor() {
-		super(template, [blogStyle]);		
+		super(template, [blogStyle]);
 	}
 	
 	connectedCallback() {
@@ -33,6 +37,14 @@ export default class BlogApp extends CustomElement {
 	
 		const links = this.shadowRoot.querySelector('blog-menu').shadowRoot.querySelectorAll('.route');
 		new Router(routes, links, fallBackRoute);
+
+		const editorModeButton = this.shadowRoot.getElementById('editor-mode-button');
+		editorModeButton.addEventListener('click', () => {
+			// TODO open the login popup
+			// XXX temporary activate the editor mode
+			context.editorMode = !context.editorMode;
+			console.log(context);
+		});
 	}
 }
 
@@ -40,6 +52,8 @@ window.customElements.define('blog-app', BlogApp);
 window.customElements.define('blog-menu', Menu);
 window.customElements.define('blog-title', MainTitle);
 window.customElements.define('blog-cv', Curriculum);
+window.customElements.define('blog-cv-section', CurriculumSection);
+window.customElements.define('blog-cv-entry', CurriculumEntry);
 window.customElements.define('blog-portfolio', Portfolio);
 window.customElements.define('blog-error', Error);
 
