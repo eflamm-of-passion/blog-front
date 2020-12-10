@@ -13,14 +13,14 @@ template.innerHTML = `
 
 export default class CurriculumSection extends WebComponent {
 	constructor(state) {
-		state = state || {};
 		super(template, [mainThemeStyle], state);
 	}
 	
 	connectedCallback() {
 		super.connectedCallback();
 		const entriesContainer = this.shadowRoot.querySelector('.entries');
-		this.state.entries.forEach(entryData => {
+		const lines = this.state.lines;
+		lines.forEach(entryData => {
 			const entryElement = document.createElement('blog-cv-entry');
 			entryElement.state = entryData;
 			entriesContainer.appendChild(entryElement);

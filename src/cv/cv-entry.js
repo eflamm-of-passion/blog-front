@@ -5,7 +5,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 	<h3 data-bind="name"></h3>
 	<h4>
-		<span data-bind="company"></span> - <span data-bind="location"></span>
+		<span data-bind="organisation"></span> - <span data-bind="location"></span>
 	</h4>
 	<p data-bind="description"></p>
 	<button>Edit entry</button>
