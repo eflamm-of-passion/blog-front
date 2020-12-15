@@ -1,10 +1,14 @@
 const restApiClient = {
 	apiAddress : 'http://localhost:3000',
-	articlesPath : '/articles'
 };
 
-restApiClient.getArticles = async () => {
-	const url = restApiClient.apiAddress + restApiClient.articlesPath;
+restApiClient.articles = getEndpoints('articles');
+restApiClient.resumes = getEndpoints('resumes');
+
+// TODO add the other endpoints
+
+function getEndpoints(type) {
+	const endpoints = {};
 	const options = {
 		method: 'GET',
 		headers: {
@@ -12,8 +16,22 @@ restApiClient.getArticles = async () => {
 		},
 		mode: 'cors'
 	};
-	const response = await fetch(url, options);
-	return await response.json();
-};
+
+	endpoints.getAll = async () => {
+		const url = restApiClient.apiAddress + '/' + type;
+		const response = await fetch(url, options);
+		return await response.json();
+	};
+	endpoints.getFirst = () => {
+		return endpoints.getAll().then(data => data[0]);
+	};
+	endpoints.getOne = async (uuid) => {
+		const url = restApiClient.apiAddress + '/' + type + '/' + uuid;
+		const response = await fetch(url, options);
+		return await response.json();
+	};
+
+	return endpoints;
+}
 
 export { restApiClient };

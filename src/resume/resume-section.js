@@ -11,7 +11,7 @@ template.innerHTML = `
     </section>
 `;
 
-export default class CurriculumSection extends WebComponent {
+export default class ResumeSection extends WebComponent {
 	constructor(state) {
 		super(template, [mainThemeStyle], state);
 	}

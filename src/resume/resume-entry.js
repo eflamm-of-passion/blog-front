@@ -11,7 +11,7 @@ template.innerHTML = `
 	<button>Edit entry</button>
 `;
 
-export default class CurriculumEntry extends WebComponent {
+export default class ResumeEntry extends WebComponent {
 	constructor(state) {
 		state = state || {};
 		super(template, [mainThemeStyle], state);
