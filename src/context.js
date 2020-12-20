@@ -1,7 +1,7 @@
 class Context  {
 	constructor() {
 		this.token = null;
-		this.editorMode = false;
+		this.isEditorMode = true;
 		this.preferences = {};
 	}
 }

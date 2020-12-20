@@ -23,7 +23,7 @@ export default class Resume extends WebComponent {
 		this.getData().then(data => {
 			for(const sectionData of data.sections){
 				let section = document.createElement('blog-cv-section');
-				section.state = sectionData;
+				section.state = {...section.state, ...sectionData};
 				self.shadowRoot.appendChild(section);
 			}
 			self.state = Object.assign(this.state, data);

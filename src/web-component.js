@@ -96,7 +96,7 @@ export default class WebComponent extends HTMLElement {
 		const ifElements = Array.from(this.shadowRoot.querySelectorAll('[data-if]'));
 		for(let ifElement of ifElements) {
 			if(!this.canDisplay(this.state, ifElement.dataset.if)) {
-				this.shadowRoot.removeChild(ifElement);
+				ifElement.parentNode.removeChild(ifElement);
 			}
 		}
 	}

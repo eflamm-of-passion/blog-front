@@ -1,18 +1,20 @@
-import WebComponent from '../web-component.js';
+import WebComponent from '../web-component';
+import context from '../context';
 import { mainThemeStyle } from '../style';
 
 const template = document.createElement('template');
 template.innerHTML = `
     <section>
         <h2 data-bind="name"></h2>
-		<div class="entries">
-		</div>
-		<button>Add an entry</button>
+		<div class="entries"></div>
+		<button data-if="isEditorMode">Add an entry</button>
     </section>
 `;
 
 export default class ResumeSection extends WebComponent {
 	constructor(state) {
+		state = state || {};
+		state.isEditorMode = context.isEditorMode;
 		super(template, [mainThemeStyle], state);
 	}
 	
