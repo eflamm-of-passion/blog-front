@@ -7,10 +7,11 @@ export default class WebComponent extends HTMLElement {
 	/**
    	* @param {HTMLTemplateElement} template - The HTML tags injected in the component
    	* @param {json} state - the data injected in the component
-   	* @param {HTMLStyleElement} - the styles to apply to the component
+   	* @param {list of HTMLStyleElement} - the styles to apply to the component
    	*/
 	constructor(template, styles, state) {
 		super();
+		// TODO implement the template engine function
 		this.template = template;
 		this.state = state || {};
 		this.styles = styles;
@@ -18,53 +19,13 @@ export default class WebComponent extends HTMLElement {
 	}
 
 	/**
-	 * Injects the template and the data in the component, updates the values when changes happen
+	 * Injects the template and the data in the component
+	 * Updates the values when changes happen
 	 */
 	connectedCallback() {
 		// Render the template inside the component, and apply the style
 		this.attachShadow({ mode: 'open' });
-		if(this.template instanceof HTMLTemplateElement) {
-			this.shadowRoot.appendChild(this.template.content.cloneNode(true));
-		} else {
-			console.error('The style must be an HTMLTemplateElement.');
-		}
-		if(this.styles.every(style => style instanceof HTMLStyleElement)) {
-			this.styles.forEach(style => this.shadowRoot.appendChild(style.cloneNode(true)) );
-		} else {
-			console.error('The style must be an HTMLStyleElement.');
-		}
-
-		/**
-		* Creates a Proxy with the initial values of the state, and updates the view everytime the values changes
-		* @param { json object } state - the initial values of the state
-		*/
-		const createState = (state) => {
-			return new Proxy(state, {
-				set(target, property, value) {
-					target[property] = value;
-					render(state);
-					return true;
-				},
-			});
-		};
-
-		/**
-		* Updates the view with the state values. The state properties matches the element data properties.
-		* @param { Proxy } state - contains the data to display in the view
-		*/
-		const render = (state) => {
-			const bindings = Array.from(
-				this.shadowRoot.querySelectorAll('[data-bind]')
-			).map((e) => e.dataset.bind);
-			bindings.forEach((binding) => {
-				if(this.shadowRoot.querySelector(`[data-bind=${binding}]`)) {
-					this.shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
-				}
-				if(this.shadowRoot.querySelector(`[data-model=${binding}]`)){
-					this.shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
-				}
-			});
-		};
+		this.shadowRoot.appendChild(this.aggregateTemplateAndStyles(this.template, this.styles));
 
 		// Register all the data-model elements to event listeners.
 		const listeners = this.shadowRoot.querySelectorAll('[data-model]');
@@ -72,21 +33,95 @@ export default class WebComponent extends HTMLElement {
 			const name = listener.dataset.model;
 			listener.addEventListener('keyup', () => {
 				this.state[name] = listener.value;
-				// console.debug('The state has changed : ' + JSON.stringify(state));
 			});
 		});
 
 		// Instanciates the state
-		this.state = createState(this.state);
+		this.state = this.createState(this);
 
 		// Render the state values in the view
-		render(this.state);
+		this.render(this.state);
+	}
+
+	/**
+	 * Aggregates the template and the styles into a document fragment
+	 * @param {HTMLTemplateElement} template 
+	 * @param {list of HTMLStyleElement} styles 
+	 */
+	aggregateTemplateAndStyles(template, styles) {
+		const documentFragment = document.createDocumentFragment();
+		if(this.template instanceof HTMLTemplateElement) {
+			documentFragment.appendChild(template.content.cloneNode(true));
+		} else {
+			console.error('The style must be an HTMLTemplateElement.');
+		}
+		if(styles.every(style => style instanceof HTMLStyleElement)) {
+			styles.forEach(style => documentFragment.appendChild(style.cloneNode(true)) );
+		} else {
+			console.error('The style must be an HTMLStyleElement.');
+		}
+		return documentFragment;
+	}
+
+	/**
+	* Creates a Proxy with the initial values of the state, and updates the view everytime the values changes
+	* @param { json object } state - the initial values of the state
+	*/
+	createState(self) {
+		return new Proxy(self.state, {
+			set(target, property, value) {
+				target[property] = value;
+				self.render(self.state);
+				return true;
+			},
+		});
+	}
+
+	/**
+	* Updates the view with the state values. The state properties matches the element data properties.
+	* @param { Proxy } state - contains the data to display in the view
+	*/
+	render(state) {
+		const bindings = Array.from(
+			this.shadowRoot.querySelectorAll('[data-bind]')
+		).map(e => e.dataset.bind);
+		bindings.forEach((binding) => {
+			if(this.shadowRoot.querySelector(`[data-bind=${binding}]`)) {
+				this.shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
+			}
+			if(this.shadowRoot.querySelector(`[data-model=${binding}]`)){
+				this.shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
+			}
+		});
+		const ifElements = Array.from(this.shadowRoot.querySelectorAll('[data-if]'));
+		for(let ifElement of ifElements) {
+			if(!this.canDisplay(this.state, ifElement.dataset.if)) {
+				this.shadowRoot.removeChild(ifElement);
+			}
+		}
 	}
 
 	attributeChangedCallback(attributeName, oldValue, newValue) {
 		if(newValue !== oldValue) {
 			this[attributeName] = this.hasAttribute(attributeName);
 			// TODO change the values in the state
+			// XXX not used for the moment
+		}
+	}
+
+	/**
+	 * Finds in the state the value or the function to execute, and returns a boolean.
+	 * It is used to know wether a component should be displayed or not.
+	 * @param {object} state - state of the component 
+	 * @param {string} statement - the statement name to search for in the state
+	 */
+	canDisplay(state, statement) {
+		statement = state[statement];
+		switch (typeof statement) {
+		case 'function':
+			return statement.call() ? true : false;
+		default:
+			return statement ? true : false;
 		}
 	}
 }

@@ -11,8 +11,6 @@ template.innerHTML = `
 	<p data-bind="description"></p>
 `;
 
-
-// TODO rename the class to Resume
 export default class Resume extends WebComponent {
 	constructor(state) {
 		state = state || {};
