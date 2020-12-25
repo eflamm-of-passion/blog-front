@@ -16,6 +16,7 @@ export default class ResumeSection extends WebComponent {
 		state = state || {};
 		state.isEditorMode = context.isEditorMode;
 		super(template, [mainThemeStyle], state);
+		context.subscribe(this);
 	}
 	
 	connectedCallback() {
@@ -27,5 +28,10 @@ export default class ResumeSection extends WebComponent {
 			entryElement.state = entryData;
 			entriesContainer.appendChild(entryElement);
 		});
+	}
+
+	onContextChange(newContext) {
+		this.state.isEditorMode = newContext.isEditorMode;
+		console.log(this.state.isEditorMode);
 	}
 }

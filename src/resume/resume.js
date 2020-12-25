@@ -31,7 +31,6 @@ export default class Resume extends WebComponent {
 	}
 	
 	getData() {
-		// TODO get the CV data from the database
 		return restApiClient.resumes.getFirst();
 	}
 }

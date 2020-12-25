@@ -40,10 +40,9 @@ export default class BlogApp extends WebComponent {
 
 		const editorModeButton = this.shadowRoot.getElementById('editor-mode-button');
 		editorModeButton.addEventListener('click', () => {
-			// TODO open the login popup
+			// TODO open the login popup, or verify token
 			// XXX temporary activate the editor mode
-			context.editorMode = !context.editorMode;
-			console.log(context);
+			context.isEditorMode = !context.isEditorMode;
 		});
 	}
 }

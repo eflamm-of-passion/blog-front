@@ -1,29 +1,41 @@
 class Context  {
 	constructor() {
-		this.token = null;
-		this.isEditorMode = true;
-		this.preferences = {};
+		this._token = null;
+		this._isEditorMode = true;
+		this._preferences = {};
 		this.subscribers = [];
 	}
 
-	set tokent(t) {
-		this.isEditorMode = t;
+	get tokent() {
+		return this._token;
+	}
+
+	get isEditorMode() {
+		return this._isEditorMode;
+	}
+
+	get preferences() {
+		return this._preferences;
+	}
+
+	set token(token) {
+		this._token = token;
 		for(const subscriber of this.subscribers) {
-			subscriber(this.getContext());
+			subscriber.onContextChange(this.getContext());
 		}
 	}
 
-	set isEditorMode(t) {
-		this.isEditorMode = t;
+	set isEditorMode(editorMode) {
+		this._isEditorMode = editorMode;
 		for(const subscriber of this.subscribers) {
-			subscriber(this.getContext());
+			subscriber.onContextChange(this.getContext());
 		}
 	}
 
-	set preferences(t) {
-		this.isEditorMode = t;
+	set preferences(preferences) {
+		this._preferences = preferences;
 		for(const subscriber of this.subscribers) {
-			subscriber(this.getContext());
+			subscriber.onContextChange(this.getContext());
 		}
 	}
 	
@@ -35,8 +47,8 @@ class Context  {
 		};
 	}
 
-	subscribe(subscriberFunction) {
-		this.subscribers.push(subscriberFunction);
+	subscribe(subscriber) {
+		this.subscribers.push(subscriber);
 	}
 }
 

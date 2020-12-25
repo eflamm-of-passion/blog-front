@@ -25,7 +25,8 @@ export default class WebComponent extends HTMLElement {
 	connectedCallback() {
 		// Render the template inside the component, and apply the style
 		this.attachShadow({ mode: 'open' });
-		this.shadowRoot.appendChild(this.aggregateTemplateAndStyles(this.template, this.styles));
+		let documentFragment = this.aggregateTemplateAndStyles(this.template, this.styles);
+		this.shadowRoot.appendChild(documentFragment);
 
 		// Register all the data-model elements to event listeners.
 		const listeners = this.shadowRoot.querySelectorAll('[data-model]');
@@ -96,7 +97,8 @@ export default class WebComponent extends HTMLElement {
 		const ifElements = Array.from(this.shadowRoot.querySelectorAll('[data-if]'));
 		for(let ifElement of ifElements) {
 			if(!this.canDisplay(this.state, ifElement.dataset.if)) {
-				ifElement.parentNode.removeChild(ifElement);
+				// TODO display none or find a way to add i back after being removed
+				// ifElement.parentNode.removeChild(ifElement);
 			}
 		}
 	}
