@@ -2,6 +2,8 @@ import WebComponent from '../web-component.js';
 import { restApiClient } from '../rest-api-client';
 import { cvStyle, mainThemeStyle } from '../style';
 
+// TODO render the sections when state changes
+
 const template = document.createElement('template');
 template.innerHTML = `
 	<h1 data-bind="name"></h1>
@@ -20,13 +22,14 @@ export default class Resume extends WebComponent {
 	connectedCallback() {
 		super.connectedCallback();
 		const self = this;
+		// find a proper way to handle the render after a state change
 		this.getData().then(data => {
+			self.state = Object.assign(self.state, data);
 			for(const sectionData of data.sections){
 				let section = document.createElement('blog-cv-section');
 				section.state = {...section.state, ...sectionData};
 				self.shadowRoot.appendChild(section);
 			}
-			self.state = Object.assign(this.state, data);
 		});
 	}
 	

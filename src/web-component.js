@@ -11,7 +11,6 @@ export default class WebComponent extends HTMLElement {
    	*/
 	constructor(template, styles, state) {
 		super();
-		// TODO implement the template engine function
 		this.template = template;
 		this.state = state || {};
 		this.styles = styles;
@@ -25,8 +24,7 @@ export default class WebComponent extends HTMLElement {
 	connectedCallback() {
 		// Render the template inside the component, and apply the style
 		this.attachShadow({ mode: 'open' });
-		let documentFragment = this.aggregateTemplateAndStyles(this.template, this.styles);
-		this.shadowRoot.appendChild(documentFragment);
+		this.shadowRoot.innerHTML = this.render(this.shadowRoot, this.template, this.styles).innerHTML;
 
 		// Register all the data-model elements to event listeners.
 		const listeners = this.shadowRoot.querySelectorAll('[data-model]');
@@ -41,27 +39,27 @@ export default class WebComponent extends HTMLElement {
 		this.state = this.createState(this);
 
 		// Render the state values in the view
-		this.render(this.state);
+		this.shadowRoot.innerHTML = this.updateDataBinding(this.shadowRoot, this.state).innerHTML;
 	}
 
 	/**
-	 * Aggregates the template and the styles into a document fragment
+	 * Aggregates the template and the styles into a document
 	 * @param {HTMLTemplateElement} template 
 	 * @param {list of HTMLStyleElement} styles 
 	 */
-	aggregateTemplateAndStyles(template, styles) {
-		const documentFragment = document.createDocumentFragment();
+	render(root, template, styles) {
+		root.innerHTML = '';
 		if(this.template instanceof HTMLTemplateElement) {
-			documentFragment.appendChild(template.content.cloneNode(true));
+			root.appendChild(template.content.cloneNode(true));
 		} else {
 			console.error('The style must be an HTMLTemplateElement.');
 		}
 		if(styles.every(style => style instanceof HTMLStyleElement)) {
-			styles.forEach(style => documentFragment.appendChild(style.cloneNode(true)) );
+			styles.forEach(style => root.appendChild(style.cloneNode(true)) );
 		} else {
 			console.error('The style must be an HTMLStyleElement.');
 		}
-		return documentFragment;
+		return root;
 	}
 
 	/**
@@ -72,7 +70,8 @@ export default class WebComponent extends HTMLElement {
 		return new Proxy(self.state, {
 			set(target, property, value) {
 				target[property] = value;
-				self.render(self.state);
+				self.shadowRoot.innerHTML = self.render(self.shadowRoot, self.template, self.styles).innerHTML;
+				self.shadowRoot.innerHTML = self.updateDataBinding(self.shadowRoot, self.state).innerHTML;
 				return true;
 			},
 		});
@@ -82,25 +81,26 @@ export default class WebComponent extends HTMLElement {
 	* Updates the view with the state values. The state properties matches the element data properties.
 	* @param { Proxy } state - contains the data to display in the view
 	*/
-	render(state) {
+	updateDataBinding(document, state) {
 		const bindings = Array.from(
-			this.shadowRoot.querySelectorAll('[data-bind]')
+			document.querySelectorAll('[data-bind]')
 		).map(e => e.dataset.bind);
 		bindings.forEach((binding) => {
-			if(this.shadowRoot.querySelector(`[data-bind=${binding}]`)) {
-				this.shadowRoot.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
+			if(document.querySelector(`[data-bind=${binding}]`)) {
+				document.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
 			}
-			if(this.shadowRoot.querySelector(`[data-model=${binding}]`)){
-				this.shadowRoot.querySelector(`[data-model=${binding}]`).value = state[binding];
+			if(document.querySelector(`[data-model=${binding}]`)){
+				document.querySelector(`[data-model=${binding}]`).value = state[binding];
 			}
 		});
-		const ifElements = Array.from(this.shadowRoot.querySelectorAll('[data-if]'));
+		const ifElements = Array.from(document.querySelectorAll('[data-if]'));
 		for(let ifElement of ifElements) {
 			if(!this.canDisplay(this.state, ifElement.dataset.if)) {
 				// TODO display none or find a way to add i back after being removed
-				// ifElement.parentNode.removeChild(ifElement);
+				ifElement.remove();
 			}
 		}
+		return document;
 	}
 
 	attributeChangedCallback(attributeName, oldValue, newValue) {

@@ -21,6 +21,11 @@ export default class ResumeSection extends WebComponent {
 	
 	connectedCallback() {
 		super.connectedCallback();
+	}
+
+	render(root, template, styles) {
+		console.log('render');
+		this.shadowRoot.innerHTML = super.render(root, template, styles).innerHTML;
 		const entriesContainer = this.shadowRoot.querySelector('.entries');
 		const lines = this.state.lines;
 		lines.forEach(entryData => {
@@ -32,6 +37,5 @@ export default class ResumeSection extends WebComponent {
 
 	onContextChange(newContext) {
 		this.state.isEditorMode = newContext.isEditorMode;
-		console.log(this.state.isEditorMode);
 	}
 }
