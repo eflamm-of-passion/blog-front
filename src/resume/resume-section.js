@@ -7,7 +7,7 @@ template.innerHTML = `
     <section>
         <h2 data-bind="name"></h2>
 		<div class="entries"></div>
-		<button data-if="isEditorMode">Add an entry</button>
+		<button>Add an entry</button>
     </section>
 `;
 
@@ -18,21 +18,17 @@ export default class ResumeSection extends WebComponent {
 		super(template, [mainThemeStyle], state);
 		context.subscribe(this);
 	}
-	
+
 	connectedCallback() {
 		super.connectedCallback();
-	}
-
-	render(root, template, styles) {
-		console.log('render');
-		this.shadowRoot.innerHTML = super.render(root, template, styles).innerHTML;
 		const entriesContainer = this.shadowRoot.querySelector('.entries');
 		const lines = this.state.lines;
-		lines.forEach(entryData => {
+		for(const entryData of lines){
 			const entryElement = document.createElement('blog-cv-entry');
-			entryElement.state = entryData;
+			entryElement.state = {...entryElement.state, ...entryData};
 			entriesContainer.appendChild(entryElement);
-		});
+		}
+		return this.shadowRoot;
 	}
 
 	onContextChange(newContext) {

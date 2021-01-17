@@ -24,7 +24,8 @@ export default class WebComponent extends HTMLElement {
 	connectedCallback() {
 		// Render the template inside the component, and apply the style
 		this.attachShadow({ mode: 'open' });
-		this.shadowRoot.innerHTML = this.render(this.shadowRoot, this.template, this.styles).innerHTML;
+		const component = this.render(this.shadowRoot, this.template, this.styles);
+		this.shadowRoot.innerHTML = component.innerHTML;
 
 		// Register all the data-model elements to event listeners.
 		const listeners = this.shadowRoot.querySelectorAll('[data-model]');
@@ -81,26 +82,23 @@ export default class WebComponent extends HTMLElement {
 	* Updates the view with the state values. The state properties matches the element data properties.
 	* @param { Proxy } state - contains the data to display in the view
 	*/
-	updateDataBinding(document, state) {
+	updateDataBinding(component, state) {
+		
+		// TODO implement conditional and list rendering
+
+		// XXX should I get the data-model too in the querySelector ?
 		const bindings = Array.from(
-			document.querySelectorAll('[data-bind]')
+			component.querySelectorAll('[data-bind]')
 		).map(e => e.dataset.bind);
 		bindings.forEach((binding) => {
-			if(document.querySelector(`[data-bind=${binding}]`)) {
-				document.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
+			if(component.querySelector(`[data-bind=${binding}]`)) {
+				component.querySelector(`[data-bind=${binding}]`).innerHTML = state[binding];
 			}
-			if(document.querySelector(`[data-model=${binding}]`)){
-				document.querySelector(`[data-model=${binding}]`).value = state[binding];
+			if(component.querySelector(`[data-model=${binding}]`)){
+				component.querySelector(`[data-model=${binding}]`).value = state[binding];
 			}
 		});
-		const ifElements = Array.from(document.querySelectorAll('[data-if]'));
-		for(let ifElement of ifElements) {
-			if(!this.canDisplay(this.state, ifElement.dataset.if)) {
-				// TODO display none or find a way to add i back after being removed
-				ifElement.remove();
-			}
-		}
-		return document;
+		return component;
 	}
 
 	attributeChangedCallback(attributeName, oldValue, newValue) {

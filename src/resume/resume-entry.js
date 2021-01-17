@@ -16,8 +16,4 @@ export default class ResumeEntry extends WebComponent {
 		state = state || {};
 		super(template, [mainThemeStyle], state);
 	}
-    
-	connectedCallback() {
-		super.connectedCallback();
-	}
 }
